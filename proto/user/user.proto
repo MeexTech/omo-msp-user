@@ -9,7 +9,7 @@ service UserService {
     rpc GetByAccount(RequestInfo) returns (ReplyUserOne) {}
     rpc UpdateBase(ReqUserUpdate) returns (ReplyInfo) {}
     rpc RemoveOne(RequestInfo) returns (ReplyInfo) {}
-    rpc GetList(ReqAssetList) returns (ReplyUserList) {}
+    rpc GetList(ReqUserList) returns (ReplyUserList) {}
 }
 
 enum ResultStatus {
@@ -33,7 +33,7 @@ message UserInfo {
     int64 updated = 4;
     string name = 5;
     string account = 6;
-    uint32 sex = 7;
+    UserSex sex = 7;
     string phone = 8;
     string realName = 9;
     string job = 10;
@@ -54,16 +54,18 @@ message ReqUserAdd {
     UserSex sex = 2;
     string account = 3;
     string phone = 4;
+    string remark = 5;
     string nickName = 6;
 }
 
 message ReqUserUpdate {
-    string name = 1;
-    string nickName = 2;
-    string phone = 3;
-    string job = 4;
-    string remark = 5;
-    UserSex sex = 6;
+    string uid = 1;
+    string name = 2;
+    string nickName = 3;
+    string phone = 4;
+    string job = 5;
+    string remark = 6;
+    UserSex sex = 7;
 }
 
 message ReplyUserOne {
@@ -71,7 +73,7 @@ message ReplyUserOne {
     ResultStatus errorCode = 2;
 }
 
-message ReqAssetList {
+message ReqUserList {
     repeated string list = 1;
 }
 

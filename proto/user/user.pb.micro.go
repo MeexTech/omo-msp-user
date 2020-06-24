@@ -47,7 +47,7 @@ type UserService interface {
 	GetByAccount(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyUserOne, error)
 	UpdateBase(ctx context.Context, in *ReqUserUpdate, opts ...client.CallOption) (*ReplyInfo, error)
 	RemoveOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error)
-	GetList(ctx context.Context, in *ReqAssetList, opts ...client.CallOption) (*ReplyUserList, error)
+	GetList(ctx context.Context, in *ReqUserList, opts ...client.CallOption) (*ReplyUserList, error)
 }
 
 type userService struct {
@@ -112,7 +112,7 @@ func (c *userService) RemoveOne(ctx context.Context, in *RequestInfo, opts ...cl
 	return out, nil
 }
 
-func (c *userService) GetList(ctx context.Context, in *ReqAssetList, opts ...client.CallOption) (*ReplyUserList, error) {
+func (c *userService) GetList(ctx context.Context, in *ReqUserList, opts ...client.CallOption) (*ReplyUserList, error) {
 	req := c.c.NewRequest(c.name, "UserService.GetList", in)
 	out := new(ReplyUserList)
 	err := c.c.Call(ctx, req, out, opts...)
@@ -130,7 +130,7 @@ type UserServiceHandler interface {
 	GetByAccount(context.Context, *RequestInfo, *ReplyUserOne) error
 	UpdateBase(context.Context, *ReqUserUpdate, *ReplyInfo) error
 	RemoveOne(context.Context, *RequestInfo, *ReplyInfo) error
-	GetList(context.Context, *ReqAssetList, *ReplyUserList) error
+	GetList(context.Context, *ReqUserList, *ReplyUserList) error
 }
 
 func RegisterUserServiceHandler(s server.Server, hdlr UserServiceHandler, opts ...server.HandlerOption) error {
@@ -140,7 +140,7 @@ func RegisterUserServiceHandler(s server.Server, hdlr UserServiceHandler, opts .
 		GetByAccount(ctx context.Context, in *RequestInfo, out *ReplyUserOne) error
 		UpdateBase(ctx context.Context, in *ReqUserUpdate, out *ReplyInfo) error
 		RemoveOne(ctx context.Context, in *RequestInfo, out *ReplyInfo) error
-		GetList(ctx context.Context, in *ReqAssetList, out *ReplyUserList) error
+		GetList(ctx context.Context, in *ReqUserList, out *ReplyUserList) error
 	}
 	type UserService struct {
 		userService
@@ -173,6 +173,6 @@ func (h *userServiceHandler) RemoveOne(ctx context.Context, in *RequestInfo, out
 	return h.UserServiceHandler.RemoveOne(ctx, in, out)
 }
 
-func (h *userServiceHandler) GetList(ctx context.Context, in *ReqAssetList, out *ReplyUserList) error {
+func (h *userServiceHandler) GetList(ctx context.Context, in *ReqUserList, out *ReplyUserList) error {
 	return h.UserServiceHandler.GetList(ctx, in, out)
 }
