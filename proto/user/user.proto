@@ -1,0 +1,80 @@
+syntax = "proto3";
+
+package omo.msp.user;
+option go_package= "proto/user";
+
+service UserService {
+    rpc AddOne(ReqUserAdd) returns (ReplyUserOne) {}
+    rpc GetOne(RequestInfo) returns (ReplyUserOne) {}
+    rpc GetByAccount(RequestInfo) returns (ReplyUserOne) {}
+    rpc UpdateBase(ReqUserUpdate) returns (ReplyInfo) {}
+    rpc RemoveOne(RequestInfo) returns (ReplyInfo) {}
+    rpc GetList(ReqAssetList) returns (ReplyUserList) {}
+}
+
+enum ResultStatus {
+    Success = 0;
+    MaxLimit = 1;
+    Repeated = 2;
+    NotExisted = 3;
+    DBException = 4;
+    Empty = 5;
+}
+
+enum UserSex {
+    Girl = 0;
+    Boy = 1;
+}
+
+message UserInfo {
+    string uid = 1;
+    uint64 id = 2;
+    int64 created = 3;
+    int64 updated = 4;
+    string name = 5;
+    string account = 6;
+    uint32 sex = 7;
+    string phone = 8;
+    string realName = 9;
+    string job = 10;
+    string remark = 11;
+}
+
+message RequestInfo {
+    string uid = 1;
+}
+
+message ReplyInfo {
+    string uid = 1;
+    ResultStatus errorCode = 2;
+}
+
+message ReqUserAdd {
+    string name = 1;
+    UserSex sex = 2;
+    string account = 3;
+    string phone = 4;
+    string nickName = 6;
+}
+
+message ReqUserUpdate {
+    string name = 1;
+    string nickName = 2;
+    string phone = 3;
+    string job = 4;
+    string remark = 5;
+    UserSex sex = 6;
+}
+
+message ReplyUserOne {
+    UserInfo info = 1;
+    ResultStatus errorCode = 2;
+}
+
+message ReqAssetList {
+    repeated string list = 1;
+}
+
+message ReplyUserList {
+    repeated UserInfo list = 1;
+}
