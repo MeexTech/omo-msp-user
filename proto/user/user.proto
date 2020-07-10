@@ -45,6 +45,7 @@ message UserInfo {
 
 message RequestInfo {
     string uid = 1;
+    string operator = 2;
 }
 
 message RequestPage {
