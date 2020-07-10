@@ -48,6 +48,7 @@ type UserService interface {
 	UpdateBase(ctx context.Context, in *ReqUserUpdate, opts ...client.CallOption) (*ReplyInfo, error)
 	RemoveOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error)
 	GetList(ctx context.Context, in *ReqUserList, opts ...client.CallOption) (*ReplyUserList, error)
+	GetByPage(ctx context.Context, in *RequestPage, opts ...client.CallOption) (*ReplyUserList, error)
 }
 
 type userService struct {
@@ -122,6 +123,16 @@ func (c *userService) GetList(ctx context.Context, in *ReqUserList, opts ...clie
 	return out, nil
 }
 
+func (c *userService) GetByPage(ctx context.Context, in *RequestPage, opts ...client.CallOption) (*ReplyUserList, error) {
+	req := c.c.NewRequest(c.name, "UserService.GetByPage", in)
+	out := new(ReplyUserList)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for UserService service
 
 type UserServiceHandler interface {
@@ -131,6 +142,7 @@ type UserServiceHandler interface {
 	UpdateBase(context.Context, *ReqUserUpdate, *ReplyInfo) error
 	RemoveOne(context.Context, *RequestInfo, *ReplyInfo) error
 	GetList(context.Context, *ReqUserList, *ReplyUserList) error
+	GetByPage(context.Context, *RequestPage, *ReplyUserList) error
 }
 
 func RegisterUserServiceHandler(s server.Server, hdlr UserServiceHandler, opts ...server.HandlerOption) error {
@@ -141,6 +153,7 @@ func RegisterUserServiceHandler(s server.Server, hdlr UserServiceHandler, opts .
 		UpdateBase(ctx context.Context, in *ReqUserUpdate, out *ReplyInfo) error
 		RemoveOne(ctx context.Context, in *RequestInfo, out *ReplyInfo) error
 		GetList(ctx context.Context, in *ReqUserList, out *ReplyUserList) error
+		GetByPage(ctx context.Context, in *RequestPage, out *ReplyUserList) error
 	}
 	type UserService struct {
 		userService
@@ -175,4 +188,8 @@ func (h *userServiceHandler) RemoveOne(ctx context.Context, in *RequestInfo, out
 
 func (h *userServiceHandler) GetList(ctx context.Context, in *ReqUserList, out *ReplyUserList) error {
 	return h.UserServiceHandler.GetList(ctx, in, out)
+}
+
+func (h *userServiceHandler) GetByPage(ctx context.Context, in *RequestPage, out *ReplyUserList) error {
+	return h.UserServiceHandler.GetByPage(ctx, in, out)
 }

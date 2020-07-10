@@ -10,6 +10,7 @@ service UserService {
     rpc UpdateBase(ReqUserUpdate) returns (ReplyInfo) {}
     rpc RemoveOne(RequestInfo) returns (ReplyInfo) {}
     rpc GetList(ReqUserList) returns (ReplyUserList) {}
+    rpc GetByPage(RequestPage) returns (ReplyUserList) {}
 }
 
 enum ResultStatus {
@@ -38,10 +39,17 @@ message UserInfo {
     string realName = 9;
     string job = 10;
     string remark = 11;
+    string creator = 12;
+    string operator = 13;
 }
 
 message RequestInfo {
     string uid = 1;
+}
+
+message RequestPage {
+    int32 number = 1;
+    int32 page = 2;
 }
 
 message ReplyInfo {
@@ -56,6 +64,7 @@ message ReqUserAdd {
     string phone = 4;
     string remark = 5;
     string nickName = 6;
+    string operator = 7;
 }
 
 message ReqUserUpdate {
@@ -66,6 +75,7 @@ message ReqUserUpdate {
     string job = 5;
     string remark = 6;
     UserSex sex = 7;
+    string operator = 8;
 }
 
 message ReplyUserOne {
@@ -74,9 +84,12 @@ message ReplyUserOne {
 }
 
 message ReqUserList {
-    repeated string list = 1;
+    repeated string list = 4;
 }
 
 message ReplyUserList {
-    repeated UserInfo list = 1;
+    uint32 max = 1;
+    uint32 pageMax = 2;
+    uint32 pageNow = 3;
+    repeated UserInfo list = 4;
 }
