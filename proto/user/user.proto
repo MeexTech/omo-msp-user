@@ -57,8 +57,8 @@ message RequestInfo {
 }
 
 message RequestPage {
-    int32 number = 1;
-    int32 page = 2;
+    uint32 number = 1;
+    uint32 page = 2;
 }
 
 message ReplyInfo {
