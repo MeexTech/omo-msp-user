@@ -27,20 +27,28 @@ enum UserSex {
     Boy = 1;
 }
 
+enum UserType {
+    SuperRoot = 0;
+    EnterpriseAdmin = 1;
+    EnterpriseCommon = 2;
+    Common = 3;
+}
+
 message UserInfo {
     string uid = 1;
     uint64 id = 2;
-    int64 created = 3;
-    int64 updated = 4;
-    string name = 5;
-    string account = 6;
-    UserSex sex = 7;
-    string phone = 8;
+    UserType type = 3;
+    int64 created = 4;
+    int64 updated = 5;
+    string name = 6;
+    string account = 7;
+    UserSex sex = 8;
     string realName = 9;
     string job = 10;
     string remark = 11;
     string creator = 12;
     string operator = 13;
+    string phone = 14;
 }
 
 message RequestInfo {
@@ -61,11 +69,12 @@ message ReplyInfo {
 message ReqUserAdd {
     string name = 1;
     UserSex sex = 2;
-    string account = 3;
-    string phone = 4;
-    string remark = 5;
-    string nickName = 6;
-    string operator = 7;
+    UserType type = 3;
+    string account = 4;
+    string phone = 5;
+    string remark = 6;
+    string nickName = 7;
+    string operator = 8;
 }
 
 message ReqUserUpdate {
@@ -89,7 +98,7 @@ message ReqUserList {
 }
 
 message ReplyUserList {
-    uint32 max = 1;
+    uint64 total = 1;
     uint32 pageMax = 2;
     uint32 pageNow = 3;
     repeated UserInfo list = 4;
