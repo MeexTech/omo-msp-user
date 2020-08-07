@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package omo.msp.user;
 option go_package= "proto/user";
+import "proto/user/common.proto";
 
 service UserService {
     rpc AddOne(ReqUserAdd) returns (ReplyUserOne) {}
@@ -9,19 +10,9 @@ service UserService {
     rpc GetByAccount(RequestInfo) returns (ReplyUserOne) {}
     rpc GetByPhone(RequestInfo) returns (ReplyUserOne) {}
     rpc UpdateBase(ReqUserUpdate) returns (ReplyUserOne) {}
-    rpc UpdatePasswords(ReqUserPasswords) returns (ReplyInfo) {}
     rpc RemoveOne(RequestInfo) returns (ReplyInfo) {}
     rpc GetList(ReqUserList) returns (ReplyUserList) {}
     rpc GetByPage(RequestPage) returns (ReplyUserList) {}
-}
-
-enum ResultStatus {
-    Success = 0;
-    MaxLimit = 1;
-    Repeated = 2;
-    NotExisted = 3;
-    DBException = 4;
-    Empty = 5;
 }
 
 enum UserSex {
@@ -45,28 +36,11 @@ message UserInfo {
     string name = 6;
     string account = 7;
     UserSex sex = 8;
-    string realName = 9;
-    string job = 10;
+    string nick = 9;
     string remark = 11;
     string creator = 12;
     string operator = 13;
     string phone = 14;
-    string passwords = 15;
-}
-
-message RequestInfo {
-    string uid = 1;
-    string operator = 2;
-}
-
-message RequestPage {
-    uint32 number = 1;
-    uint32 page = 2;
-}
-
-message ReplyInfo {
-    string uid = 1;
-    ResultStatus errorCode = 2;
 }
 
 message ReqUserAdd {
@@ -91,15 +65,9 @@ message ReqUserUpdate {
     string operator = 8;
 }
 
-message ReqUserPasswords {
-    string uid = 1;
-    string passwords = 2;
-    string operator = 3;
-}
-
 message ReplyUserOne {
     UserInfo info = 1;
-    ResultStatus errorCode = 2;
+    ReplyStatus status = 2;
 }
 
 message ReqUserList {
@@ -111,4 +79,5 @@ message ReplyUserList {
     uint32 pageMax = 2;
     uint32 pageNow = 3;
     repeated UserInfo list = 4;
+    ReplyStatus status = 5;
 }

@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package omo.msp.user;
+option go_package= "proto/user";
+import "proto/user/common.proto";
+
+service AccountService {
+  rpc GetOne(RequestInfo) returns (ReplyAccount) {}
+  rpc SignIn(ReqSignIn) returns (ReplyInfo) {}
+  rpc SetPasswords(ReqSetPasswords) returns (ReplyInfo) {}
+}
+
+message AccountInfo {
+  string uid = 1;
+  string name = 2;
+  string passwords = 3;
+  int64 created = 4;
+  int64 updated = 5;
+  string creator = 6;
+  string operator = 7;
+}
+
+message ReqSignIn {
+  string name = 1;
+  string psw = 2;
+}
+
+message ReqSetPasswords {
+  string user = 1;
+  string psw = 2;
+  string operator = 3;
+}
+
+message ReplyAccount {
+  AccountInfo info = 1;
+  ReplyStatus status = 2;
+}
+
+
+

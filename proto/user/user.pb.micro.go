@@ -47,7 +47,6 @@ type UserService interface {
 	GetByAccount(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyUserOne, error)
 	GetByPhone(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyUserOne, error)
 	UpdateBase(ctx context.Context, in *ReqUserUpdate, opts ...client.CallOption) (*ReplyUserOne, error)
-	UpdatePasswords(ctx context.Context, in *ReqUserPasswords, opts ...client.CallOption) (*ReplyInfo, error)
 	RemoveOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error)
 	GetList(ctx context.Context, in *ReqUserList, opts ...client.CallOption) (*ReplyUserList, error)
 	GetByPage(ctx context.Context, in *RequestPage, opts ...client.CallOption) (*ReplyUserList, error)
@@ -115,16 +114,6 @@ func (c *userService) UpdateBase(ctx context.Context, in *ReqUserUpdate, opts ..
 	return out, nil
 }
 
-func (c *userService) UpdatePasswords(ctx context.Context, in *ReqUserPasswords, opts ...client.CallOption) (*ReplyInfo, error) {
-	req := c.c.NewRequest(c.name, "UserService.UpdatePasswords", in)
-	out := new(ReplyInfo)
-	err := c.c.Call(ctx, req, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *userService) RemoveOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error) {
 	req := c.c.NewRequest(c.name, "UserService.RemoveOne", in)
 	out := new(ReplyInfo)
@@ -163,7 +152,6 @@ type UserServiceHandler interface {
 	GetByAccount(context.Context, *RequestInfo, *ReplyUserOne) error
 	GetByPhone(context.Context, *RequestInfo, *ReplyUserOne) error
 	UpdateBase(context.Context, *ReqUserUpdate, *ReplyUserOne) error
-	UpdatePasswords(context.Context, *ReqUserPasswords, *ReplyInfo) error
 	RemoveOne(context.Context, *RequestInfo, *ReplyInfo) error
 	GetList(context.Context, *ReqUserList, *ReplyUserList) error
 	GetByPage(context.Context, *RequestPage, *ReplyUserList) error
@@ -176,7 +164,6 @@ func RegisterUserServiceHandler(s server.Server, hdlr UserServiceHandler, opts .
 		GetByAccount(ctx context.Context, in *RequestInfo, out *ReplyUserOne) error
 		GetByPhone(ctx context.Context, in *RequestInfo, out *ReplyUserOne) error
 		UpdateBase(ctx context.Context, in *ReqUserUpdate, out *ReplyUserOne) error
-		UpdatePasswords(ctx context.Context, in *ReqUserPasswords, out *ReplyInfo) error
 		RemoveOne(ctx context.Context, in *RequestInfo, out *ReplyInfo) error
 		GetList(ctx context.Context, in *ReqUserList, out *ReplyUserList) error
 		GetByPage(ctx context.Context, in *RequestPage, out *ReplyUserList) error
@@ -210,10 +197,6 @@ func (h *userServiceHandler) GetByPhone(ctx context.Context, in *RequestInfo, ou
 
 func (h *userServiceHandler) UpdateBase(ctx context.Context, in *ReqUserUpdate, out *ReplyUserOne) error {
 	return h.UserServiceHandler.UpdateBase(ctx, in, out)
-}
-
-func (h *userServiceHandler) UpdatePasswords(ctx context.Context, in *ReqUserPasswords, out *ReplyInfo) error {
-	return h.UserServiceHandler.UpdatePasswords(ctx, in, out)
 }
 
 func (h *userServiceHandler) RemoveOne(ctx context.Context, in *RequestInfo, out *ReplyInfo) error {

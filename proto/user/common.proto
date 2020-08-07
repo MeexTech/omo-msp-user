@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package omo.msp.user;
+option go_package= "proto/user";
+
+enum ResultCode {
+  Success = 0;
+  MaxLimit = 1;
+  Repeated = 2;
+  NotExisted = 3;
+  DBException = 4;
+  Empty = 5;
+}
+
+message RequestInfo {
+  string uid = 1;
+  string operator = 2;
+}
+
+message RequestPage {
+  uint32 number = 1;
+  uint32 page = 2;
+}
+
+message ReplyStatus {
+  ResultCode code = 1;
+  string msg = 2;
+}
+
+message ReplyInfo {
+  ReplyStatus status = 1;
+  string uid = 2;
+}
