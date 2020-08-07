@@ -44,7 +44,6 @@ func NewUserServiceEndpoints() []*api.Endpoint {
 type UserService interface {
 	AddOne(ctx context.Context, in *ReqUserAdd, opts ...client.CallOption) (*ReplyUserOne, error)
 	GetOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyUserOne, error)
-	GetByAccount(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyUserOne, error)
 	GetByPhone(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyUserOne, error)
 	UpdateBase(ctx context.Context, in *ReqUserUpdate, opts ...client.CallOption) (*ReplyUserOne, error)
 	RemoveOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error)
@@ -76,16 +75,6 @@ func (c *userService) AddOne(ctx context.Context, in *ReqUserAdd, opts ...client
 
 func (c *userService) GetOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyUserOne, error) {
 	req := c.c.NewRequest(c.name, "UserService.GetOne", in)
-	out := new(ReplyUserOne)
-	err := c.c.Call(ctx, req, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *userService) GetByAccount(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyUserOne, error) {
-	req := c.c.NewRequest(c.name, "UserService.GetByAccount", in)
 	out := new(ReplyUserOne)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -149,7 +138,6 @@ func (c *userService) GetByPage(ctx context.Context, in *RequestPage, opts ...cl
 type UserServiceHandler interface {
 	AddOne(context.Context, *ReqUserAdd, *ReplyUserOne) error
 	GetOne(context.Context, *RequestInfo, *ReplyUserOne) error
-	GetByAccount(context.Context, *RequestInfo, *ReplyUserOne) error
 	GetByPhone(context.Context, *RequestInfo, *ReplyUserOne) error
 	UpdateBase(context.Context, *ReqUserUpdate, *ReplyUserOne) error
 	RemoveOne(context.Context, *RequestInfo, *ReplyInfo) error
@@ -161,7 +149,6 @@ func RegisterUserServiceHandler(s server.Server, hdlr UserServiceHandler, opts .
 	type userService interface {
 		AddOne(ctx context.Context, in *ReqUserAdd, out *ReplyUserOne) error
 		GetOne(ctx context.Context, in *RequestInfo, out *ReplyUserOne) error
-		GetByAccount(ctx context.Context, in *RequestInfo, out *ReplyUserOne) error
 		GetByPhone(ctx context.Context, in *RequestInfo, out *ReplyUserOne) error
 		UpdateBase(ctx context.Context, in *ReqUserUpdate, out *ReplyUserOne) error
 		RemoveOne(ctx context.Context, in *RequestInfo, out *ReplyInfo) error
@@ -185,10 +172,6 @@ func (h *userServiceHandler) AddOne(ctx context.Context, in *ReqUserAdd, out *Re
 
 func (h *userServiceHandler) GetOne(ctx context.Context, in *RequestInfo, out *ReplyUserOne) error {
 	return h.UserServiceHandler.GetOne(ctx, in, out)
-}
-
-func (h *userServiceHandler) GetByAccount(ctx context.Context, in *RequestInfo, out *ReplyUserOne) error {
-	return h.UserServiceHandler.GetByAccount(ctx, in, out)
 }
 
 func (h *userServiceHandler) GetByPhone(ctx context.Context, in *RequestInfo, out *ReplyUserOne) error {

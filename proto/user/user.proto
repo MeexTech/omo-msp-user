@@ -7,7 +7,6 @@ import "proto/user/common.proto";
 service UserService {
     rpc AddOne(ReqUserAdd) returns (ReplyUserOne) {}
     rpc GetOne(RequestInfo) returns (ReplyUserOne) {}
-    rpc GetByAccount(RequestInfo) returns (ReplyUserOne) {}
     rpc GetByPhone(RequestInfo) returns (ReplyUserOne) {}
     rpc UpdateBase(ReqUserUpdate) returns (ReplyUserOne) {}
     rpc RemoveOne(RequestInfo) returns (ReplyInfo) {}
