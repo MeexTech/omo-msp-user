@@ -50,8 +50,9 @@ message ReqUserAdd {
     string account = 4;
     string phone = 5;
     string remark = 6;
-    string nickName = 7;
+    string nick = 7;
     string operator = 8;
+    string passwords = 9;
 }
 
 message ReqUserUpdate {
