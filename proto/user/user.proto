@@ -9,6 +9,7 @@ service UserService {
     rpc GetOne(RequestInfo) returns (ReplyUserOne) {}
     rpc GetByPhone(RequestInfo) returns (ReplyUserOne) {}
     rpc UpdateBase(ReqUserUpdate) returns (ReplyUserOne) {}
+    rpc UpdateEntity(ReqUserEntity) returns (ReplyUserOne) {}
     rpc RemoveOne(RequestInfo) returns (ReplyInfo) {}
     rpc GetList(ReqUserList) returns (ReplyUserList) {}
     rpc GetByPage(RequestPage) returns (ReplyUserList) {}
@@ -40,6 +41,7 @@ message UserInfo {
     string creator = 12;
     string operator = 13;
     string phone = 14;
+    string entity = 15;
 }
 
 message ReqUserAdd {
@@ -52,6 +54,7 @@ message ReqUserAdd {
     string nick = 7;
     string operator = 8;
     string passwords = 9;
+    string entity = 10;
 }
 
 message ReqUserUpdate {
@@ -63,6 +66,11 @@ message ReqUserUpdate {
     string remark = 6;
     UserSex sex = 7;
     string operator = 8;
+}
+
+message ReqUserEntity {
+    string uid = 1;
+    string entity = 2;
 }
 
 message ReplyUserOne {
