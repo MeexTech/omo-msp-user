@@ -14,7 +14,8 @@ enum ResultCode {
 
 message RequestInfo {
   string uid = 1;
-  string operator = 2;
+  string entity = 2;
+  string operator = 3;
 }
 
 message RequestPage {
