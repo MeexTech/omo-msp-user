@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package omo.msp.user;
+option go_package= "proto/user";
+import "proto/user/common.proto";
+
+service WechatService {
+  rpc AddOne(ReqWechatAdd) returns (ReplyWechatInfo) {}
+  rpc GetOne(RequestInfo) returns (ReplyWechatInfo) {}
+  rpc UpdateBase(ReqWechatUpdate) returns (ReplyWechatInfo) {}
+}
+
+message WechatInfo {
+  string uid = 1;
+  uint64 id = 2;
+  uint64 created = 3;
+  uint64 updated = 4;
+  string creator = 5;
+  string operator = 6;
+  string open = 7;
+  string union = 8;
+  string portrait = 9;
+}
+
+message ReqWechatAdd {
+  string open = 1;
+  string union = 2;
+  string portrait = 3;
+  string operator = 4;
+}
+
+message ReqWechatUpdate {
+  string uid = 1;
+  string open = 2;
+  string union = 3;
+  string portrait = 4;
+  string operator = 5;
+}
+
+message ReplyWechatInfo {
+  ReplyStatus status = 1;
+  WechatInfo info = 2;
+}
