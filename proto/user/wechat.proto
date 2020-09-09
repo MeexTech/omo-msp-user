@@ -20,6 +20,7 @@ message WechatInfo {
   string open = 7;
   string union = 8;
   string portrait = 9;
+  string name = 10;
 }
 
 message ReqWechatAdd {
@@ -27,6 +28,7 @@ message ReqWechatAdd {
   string union = 2;
   string portrait = 3;
   string operator = 4;
+  string name = 5;
 }
 
 message ReqWechatUpdate {
@@ -35,6 +37,7 @@ message ReqWechatUpdate {
   string union = 3;
   string portrait = 4;
   string operator = 5;
+  string name = 6;
 }
 
 message ReplyWechatInfo {

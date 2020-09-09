@@ -63,6 +63,7 @@ message ReqUserAdd {
     string operator = 8;
     string passwords = 9;
     string entity = 10;
+    SNSInfo sns = 11;
 }
 
 message ReqUserUpdate {
