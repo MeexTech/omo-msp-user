@@ -6,8 +6,14 @@ import "proto/user/common.proto";
 
 service WechatService {
   rpc AddOne(ReqWechatAdd) returns (ReplyWechatInfo) {}
-  rpc GetOne(RequestInfo) returns (ReplyWechatInfo) {}
+  rpc GetOne(ReqWechatBy) returns (ReplyWechatInfo) {}
   rpc UpdateBase(ReqWechatUpdate) returns (ReplyWechatInfo) {}
+}
+
+enum WechatType {
+  Default = 0;
+  OpenID = 1;
+  Union = 2;
 }
 
 message WechatInfo {
@@ -21,6 +27,11 @@ message WechatInfo {
   string union = 8;
   string portrait = 9;
   string name = 10;
+}
+
+message ReqWechatBy {
+  string uid = 1;
+  WechatType type = 2;
 }
 
 message ReqWechatAdd {

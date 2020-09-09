@@ -43,7 +43,7 @@ func NewWechatServiceEndpoints() []*api.Endpoint {
 
 type WechatService interface {
 	AddOne(ctx context.Context, in *ReqWechatAdd, opts ...client.CallOption) (*ReplyWechatInfo, error)
-	GetOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyWechatInfo, error)
+	GetOne(ctx context.Context, in *ReqWechatBy, opts ...client.CallOption) (*ReplyWechatInfo, error)
 	UpdateBase(ctx context.Context, in *ReqWechatUpdate, opts ...client.CallOption) (*ReplyWechatInfo, error)
 }
 
@@ -69,7 +69,7 @@ func (c *wechatService) AddOne(ctx context.Context, in *ReqWechatAdd, opts ...cl
 	return out, nil
 }
 
-func (c *wechatService) GetOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyWechatInfo, error) {
+func (c *wechatService) GetOne(ctx context.Context, in *ReqWechatBy, opts ...client.CallOption) (*ReplyWechatInfo, error) {
 	req := c.c.NewRequest(c.name, "WechatService.GetOne", in)
 	out := new(ReplyWechatInfo)
 	err := c.c.Call(ctx, req, out, opts...)
@@ -93,14 +93,14 @@ func (c *wechatService) UpdateBase(ctx context.Context, in *ReqWechatUpdate, opt
 
 type WechatServiceHandler interface {
 	AddOne(context.Context, *ReqWechatAdd, *ReplyWechatInfo) error
-	GetOne(context.Context, *RequestInfo, *ReplyWechatInfo) error
+	GetOne(context.Context, *ReqWechatBy, *ReplyWechatInfo) error
 	UpdateBase(context.Context, *ReqWechatUpdate, *ReplyWechatInfo) error
 }
 
 func RegisterWechatServiceHandler(s server.Server, hdlr WechatServiceHandler, opts ...server.HandlerOption) error {
 	type wechatService interface {
 		AddOne(ctx context.Context, in *ReqWechatAdd, out *ReplyWechatInfo) error
-		GetOne(ctx context.Context, in *RequestInfo, out *ReplyWechatInfo) error
+		GetOne(ctx context.Context, in *ReqWechatBy, out *ReplyWechatInfo) error
 		UpdateBase(ctx context.Context, in *ReqWechatUpdate, out *ReplyWechatInfo) error
 	}
 	type WechatService struct {
@@ -118,7 +118,7 @@ func (h *wechatServiceHandler) AddOne(ctx context.Context, in *ReqWechatAdd, out
 	return h.WechatServiceHandler.AddOne(ctx, in, out)
 }
 
-func (h *wechatServiceHandler) GetOne(ctx context.Context, in *RequestInfo, out *ReplyWechatInfo) error {
+func (h *wechatServiceHandler) GetOne(ctx context.Context, in *ReqWechatBy, out *ReplyWechatInfo) error {
 	return h.WechatServiceHandler.GetOne(ctx, in, out)
 }
 
