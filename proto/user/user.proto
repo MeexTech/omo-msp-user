@@ -8,6 +8,7 @@ service UserService {
     rpc AddOne(ReqUserAdd) returns (ReplyUserOne) {}
     rpc GetOne(RequestInfo) returns (ReplyUserOne) {}
     rpc GetByPhone(RequestInfo) returns (ReplyUserOne) {}
+    rpc GetByEntity(RequestInfo) returns (ReplyUserOne) {}
     rpc GetBySNS(ReqUserBy) returns (ReplyUserOne) {}
     rpc UpdateBase(ReqUserUpdate) returns (ReplyUserOne) {}
     rpc UpdateEntity(ReqUserEntity) returns (ReplyUserOne) {}
