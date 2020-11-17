@@ -51,7 +51,8 @@ message UserInfo {
     string operator = 13;
     string phone = 14;
     string entity = 15;
-    repeated SNSInfo sns = 16;
+    string portrait = 16;
+    repeated SNSInfo sns = 17;
 }
 
 message ReqUserAdd {
