@@ -18,6 +18,11 @@ message RequestInfo {
   string operator = 3;
 }
 
+message RequestIDInfo {
+  uint64 id = 1;
+  string operator = 2;
+}
+
 message RequestPage {
   uint32 number = 1;
   uint32 page = 2;

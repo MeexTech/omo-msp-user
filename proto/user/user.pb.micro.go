@@ -44,6 +44,7 @@ func NewUserServiceEndpoints() []*api.Endpoint {
 type UserService interface {
 	AddOne(ctx context.Context, in *ReqUserAdd, opts ...client.CallOption) (*ReplyUserOne, error)
 	GetOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyUserOne, error)
+	GetByID(ctx context.Context, in *RequestIDInfo, opts ...client.CallOption) (*ReplyUserOne, error)
 	GetByPhone(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyUserOne, error)
 	GetByEntity(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyUserOne, error)
 	GetBySNS(ctx context.Context, in *ReqUserBy, opts ...client.CallOption) (*ReplyUserOne, error)
@@ -79,6 +80,16 @@ func (c *userService) AddOne(ctx context.Context, in *ReqUserAdd, opts ...client
 
 func (c *userService) GetOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyUserOne, error) {
 	req := c.c.NewRequest(c.name, "UserService.GetOne", in)
+	out := new(ReplyUserOne)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userService) GetByID(ctx context.Context, in *RequestIDInfo, opts ...client.CallOption) (*ReplyUserOne, error) {
+	req := c.c.NewRequest(c.name, "UserService.GetByID", in)
 	out := new(ReplyUserOne)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -182,6 +193,7 @@ func (c *userService) UpdateSNS(ctx context.Context, in *ReqUserSNS, opts ...cli
 type UserServiceHandler interface {
 	AddOne(context.Context, *ReqUserAdd, *ReplyUserOne) error
 	GetOne(context.Context, *RequestInfo, *ReplyUserOne) error
+	GetByID(context.Context, *RequestIDInfo, *ReplyUserOne) error
 	GetByPhone(context.Context, *RequestInfo, *ReplyUserOne) error
 	GetByEntity(context.Context, *RequestInfo, *ReplyUserOne) error
 	GetBySNS(context.Context, *ReqUserBy, *ReplyUserOne) error
@@ -197,6 +209,7 @@ func RegisterUserServiceHandler(s server.Server, hdlr UserServiceHandler, opts .
 	type userService interface {
 		AddOne(ctx context.Context, in *ReqUserAdd, out *ReplyUserOne) error
 		GetOne(ctx context.Context, in *RequestInfo, out *ReplyUserOne) error
+		GetByID(ctx context.Context, in *RequestIDInfo, out *ReplyUserOne) error
 		GetByPhone(ctx context.Context, in *RequestInfo, out *ReplyUserOne) error
 		GetByEntity(ctx context.Context, in *RequestInfo, out *ReplyUserOne) error
 		GetBySNS(ctx context.Context, in *ReqUserBy, out *ReplyUserOne) error
@@ -224,6 +237,10 @@ func (h *userServiceHandler) AddOne(ctx context.Context, in *ReqUserAdd, out *Re
 
 func (h *userServiceHandler) GetOne(ctx context.Context, in *RequestInfo, out *ReplyUserOne) error {
 	return h.UserServiceHandler.GetOne(ctx, in, out)
+}
+
+func (h *userServiceHandler) GetByID(ctx context.Context, in *RequestIDInfo, out *ReplyUserOne) error {
+	return h.UserServiceHandler.GetByID(ctx, in, out)
 }
 
 func (h *userServiceHandler) GetByPhone(ctx context.Context, in *RequestInfo, out *ReplyUserOne) error {
