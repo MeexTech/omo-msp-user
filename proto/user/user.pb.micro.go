@@ -45,6 +45,7 @@ type UserService interface {
 	RemoveOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error)
 	GetList(ctx context.Context, in *ReqUserList, opts ...client.CallOption) (*ReplyUserList, error)
 	GetByPage(ctx context.Context, in *RequestPage, opts ...client.CallOption) (*ReplyUserList, error)
+	GetByKey(ctx context.Context, in *ReqUserSearch, opts ...client.CallOption) (*ReplyUserList, error)
 	UpdateSNS(ctx context.Context, in *ReqUserSNS, opts ...client.CallOption) (*ReplyUserOne, error)
 	UpdateTags(ctx context.Context, in *ReqUserTags, opts ...client.CallOption) (*ReplyUserOne, error)
 }
@@ -171,6 +172,16 @@ func (c *userService) GetByPage(ctx context.Context, in *RequestPage, opts ...cl
 	return out, nil
 }
 
+func (c *userService) GetByKey(ctx context.Context, in *ReqUserSearch, opts ...client.CallOption) (*ReplyUserList, error) {
+	req := c.c.NewRequest(c.name, "UserService.GetByKey", in)
+	out := new(ReplyUserList)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *userService) UpdateSNS(ctx context.Context, in *ReqUserSNS, opts ...client.CallOption) (*ReplyUserOne, error) {
 	req := c.c.NewRequest(c.name, "UserService.UpdateSNS", in)
 	out := new(ReplyUserOne)
@@ -205,6 +216,7 @@ type UserServiceHandler interface {
 	RemoveOne(context.Context, *RequestInfo, *ReplyInfo) error
 	GetList(context.Context, *ReqUserList, *ReplyUserList) error
 	GetByPage(context.Context, *RequestPage, *ReplyUserList) error
+	GetByKey(context.Context, *ReqUserSearch, *ReplyUserList) error
 	UpdateSNS(context.Context, *ReqUserSNS, *ReplyUserOne) error
 	UpdateTags(context.Context, *ReqUserTags, *ReplyUserOne) error
 }
@@ -222,6 +234,7 @@ func RegisterUserServiceHandler(s server.Server, hdlr UserServiceHandler, opts .
 		RemoveOne(ctx context.Context, in *RequestInfo, out *ReplyInfo) error
 		GetList(ctx context.Context, in *ReqUserList, out *ReplyUserList) error
 		GetByPage(ctx context.Context, in *RequestPage, out *ReplyUserList) error
+		GetByKey(ctx context.Context, in *ReqUserSearch, out *ReplyUserList) error
 		UpdateSNS(ctx context.Context, in *ReqUserSNS, out *ReplyUserOne) error
 		UpdateTags(ctx context.Context, in *ReqUserTags, out *ReplyUserOne) error
 	}
@@ -278,6 +291,10 @@ func (h *userServiceHandler) GetList(ctx context.Context, in *ReqUserList, out *
 
 func (h *userServiceHandler) GetByPage(ctx context.Context, in *RequestPage, out *ReplyUserList) error {
 	return h.UserServiceHandler.GetByPage(ctx, in, out)
+}
+
+func (h *userServiceHandler) GetByKey(ctx context.Context, in *ReqUserSearch, out *ReplyUserList) error {
+	return h.UserServiceHandler.GetByKey(ctx, in, out)
 }
 
 func (h *userServiceHandler) UpdateSNS(ctx context.Context, in *ReqUserSNS, out *ReplyUserOne) error {

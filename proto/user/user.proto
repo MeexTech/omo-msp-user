@@ -16,6 +16,7 @@ service UserService {
     rpc RemoveOne(RequestInfo) returns (ReplyInfo) {}
     rpc GetList(ReqUserList) returns (ReplyUserList) {}
     rpc GetByPage(RequestPage) returns (ReplyUserList) {}
+    rpc GetByKey(ReqUserSearch) returns (ReplyUserList) {}
     rpc UpdateSNS(ReqUserSNS) returns (ReplyUserOne) {}
     rpc UpdateTags(ReqUserTags) returns (ReplyUserOne) {}
 }
@@ -69,13 +70,19 @@ message ReqUserAdd {
     string operator = 8;
     string passwords = 9;
     string entity = 10;
-    string portrait = 12;
-    SNSInfo sns = 11;
+    string portrait = 11;
+    SNSInfo sns = 12;
+    repeated string tags = 13;
 }
 
 message ReqUserBy {
     string uid = 1;
     uint32 type = 2;
+}
+
+message ReqUserSearch {
+    UserType type = 1;
+    string tag = 2;
 }
 
 message ReqUserUpdate {
@@ -106,7 +113,8 @@ message ReqUserEntity {
 
 message ReqUserTags{
     string uid = 1;
-    repeated string tags = 2;
+    string operator = 2;
+    repeated string tags = 3;
 }
 
 message ReplyUserOne {
