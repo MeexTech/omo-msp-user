@@ -11,7 +11,6 @@ import (
 
 import (
 	context "context"
-	api "github.com/micro/go-micro/v2/api"
 	client "github.com/micro/go-micro/v2/client"
 	server "github.com/micro/go-micro/v2/server"
 )
@@ -28,16 +27,9 @@ var _ = math.Inf
 const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
 // Reference imports to suppress errors if they are not otherwise used.
-var _ api.Endpoint
 var _ context.Context
 var _ client.Option
 var _ server.Option
-
-// Api Endpoints for UserService service
-
-func NewUserServiceEndpoints() []*api.Endpoint {
-	return []*api.Endpoint{}
-}
 
 // Client API for UserService service
 
@@ -54,6 +46,7 @@ type UserService interface {
 	GetList(ctx context.Context, in *ReqUserList, opts ...client.CallOption) (*ReplyUserList, error)
 	GetByPage(ctx context.Context, in *RequestPage, opts ...client.CallOption) (*ReplyUserList, error)
 	UpdateSNS(ctx context.Context, in *ReqUserSNS, opts ...client.CallOption) (*ReplyUserOne, error)
+	UpdateTags(ctx context.Context, in *ReqUserTags, opts ...client.CallOption) (*ReplyUserOne, error)
 }
 
 type userService struct {
@@ -188,6 +181,16 @@ func (c *userService) UpdateSNS(ctx context.Context, in *ReqUserSNS, opts ...cli
 	return out, nil
 }
 
+func (c *userService) UpdateTags(ctx context.Context, in *ReqUserTags, opts ...client.CallOption) (*ReplyUserOne, error) {
+	req := c.c.NewRequest(c.name, "UserService.UpdateTags", in)
+	out := new(ReplyUserOne)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for UserService service
 
 type UserServiceHandler interface {
@@ -203,6 +206,7 @@ type UserServiceHandler interface {
 	GetList(context.Context, *ReqUserList, *ReplyUserList) error
 	GetByPage(context.Context, *RequestPage, *ReplyUserList) error
 	UpdateSNS(context.Context, *ReqUserSNS, *ReplyUserOne) error
+	UpdateTags(context.Context, *ReqUserTags, *ReplyUserOne) error
 }
 
 func RegisterUserServiceHandler(s server.Server, hdlr UserServiceHandler, opts ...server.HandlerOption) error {
@@ -219,6 +223,7 @@ func RegisterUserServiceHandler(s server.Server, hdlr UserServiceHandler, opts .
 		GetList(ctx context.Context, in *ReqUserList, out *ReplyUserList) error
 		GetByPage(ctx context.Context, in *RequestPage, out *ReplyUserList) error
 		UpdateSNS(ctx context.Context, in *ReqUserSNS, out *ReplyUserOne) error
+		UpdateTags(ctx context.Context, in *ReqUserTags, out *ReplyUserOne) error
 	}
 	type UserService struct {
 		userService
@@ -277,4 +282,8 @@ func (h *userServiceHandler) GetByPage(ctx context.Context, in *RequestPage, out
 
 func (h *userServiceHandler) UpdateSNS(ctx context.Context, in *ReqUserSNS, out *ReplyUserOne) error {
 	return h.UserServiceHandler.UpdateSNS(ctx, in, out)
+}
+
+func (h *userServiceHandler) UpdateTags(ctx context.Context, in *ReqUserTags, out *ReplyUserOne) error {
+	return h.UserServiceHandler.UpdateTags(ctx, in, out)
 }
