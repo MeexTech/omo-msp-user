@@ -82,7 +82,7 @@ message ReqUserBy {
 
 message ReqUserSearch {
     UserType type = 1;
-    string tag = 2;
+    repeated string tag = 2;
 }
 
 message ReqUserUpdate {
