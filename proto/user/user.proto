@@ -17,6 +17,7 @@ service UserService {
     rpc GetList(ReqUserList) returns (ReplyUserList) {}
     rpc GetByPage(RequestPage) returns (ReplyUserList) {}
     rpc UpdateSNS(ReqUserSNS) returns (ReplyUserOne) {}
+    rpc UpdateTags(ReqUserTags) returns (ReplyUserOne) {}
 }
 
 enum UserSex {
@@ -53,7 +54,8 @@ message UserInfo {
     string phone = 14;
     string entity = 15;
     string portrait = 16;
-    repeated SNSInfo sns = 17;
+    repeated string tags = 17;
+    repeated SNSInfo sns = 18;
 }
 
 message ReqUserAdd {
@@ -100,6 +102,11 @@ message ReqUserSNS {
 message ReqUserEntity {
     string uid = 1;
     string entity = 2;
+}
+
+message ReqUserTags{
+    string uid = 1;
+    repeated string tags = 2;
 }
 
 message ReplyUserOne {
