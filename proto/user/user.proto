@@ -91,12 +91,11 @@ message ReqUserUpdate {
     string uid = 1;
     string name = 2;
     string nickName = 3;
-    string phone = 4;
-    string job = 5;
-    string remark = 6;
-    UserSex sex = 7;
-    string operator = 8;
-    string portrait = 9;
+    string job = 4;
+    string remark = 5;
+    UserSex sex = 6;
+    string operator = 7;
+    string portrait = 8;
 }
 
 message ReqUserSNS {
@@ -111,11 +110,13 @@ message ReqUserSNS {
 message ReqUserEntity {
     string uid = 1;
     string entity = 2;
+    string operator = 3;
 }
 
 message ReqUserPhone {
     string uid = 1;
     string phone = 2;
+    string operator = 3;
 }
 
 message ReqUserTags{
