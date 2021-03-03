@@ -19,6 +19,7 @@ service UserService {
     rpc GetByKey(ReqUserSearch) returns (ReplyUserList) {}
     rpc UpdateSNS(ReqUserSNS) returns (ReplyUserOne) {}
     rpc UpdateTags(ReqUserTags) returns (ReplyUserOne) {}
+    rpc UpdatePhone(ReqUserPhone) returns (ReplyInfo) {}
 }
 
 enum UserSex {
@@ -112,6 +113,11 @@ message ReqUserEntity {
     string entity = 2;
 }
 
+message ReqUserPhone {
+    string uid = 1;
+    string phone = 2;
+}
+
 message ReqUserTags{
     string uid = 1;
     string operator = 2;
@@ -123,8 +129,7 @@ message ReplyUserOne {
     ReplyStatus status = 2;
 }
 
-message
-    ReqUserList {
+message ReqUserList {
     repeated string list = 4;
 }
 
