@@ -38,6 +38,7 @@ type AccountService interface {
 	SignIn(ctx context.Context, in *ReqSignIn, opts ...client.CallOption) (*ReplyInfo, error)
 	SetPasswords(ctx context.Context, in *ReqSetPasswords, opts ...client.CallOption) (*ReplyInfo, error)
 	UpdateName(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error)
+	UpdateStatus(ctx context.Context, in *ReqAccountStatus, opts ...client.CallOption) (*ReplyInfo, error)
 }
 
 type accountService struct {
@@ -92,6 +93,16 @@ func (c *accountService) UpdateName(ctx context.Context, in *RequestInfo, opts .
 	return out, nil
 }
 
+func (c *accountService) UpdateStatus(ctx context.Context, in *ReqAccountStatus, opts ...client.CallOption) (*ReplyInfo, error) {
+	req := c.c.NewRequest(c.name, "AccountService.UpdateStatus", in)
+	out := new(ReplyInfo)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for AccountService service
 
 type AccountServiceHandler interface {
@@ -99,6 +110,7 @@ type AccountServiceHandler interface {
 	SignIn(context.Context, *ReqSignIn, *ReplyInfo) error
 	SetPasswords(context.Context, *ReqSetPasswords, *ReplyInfo) error
 	UpdateName(context.Context, *RequestInfo, *ReplyInfo) error
+	UpdateStatus(context.Context, *ReqAccountStatus, *ReplyInfo) error
 }
 
 func RegisterAccountServiceHandler(s server.Server, hdlr AccountServiceHandler, opts ...server.HandlerOption) error {
@@ -107,6 +119,7 @@ func RegisterAccountServiceHandler(s server.Server, hdlr AccountServiceHandler, 
 		SignIn(ctx context.Context, in *ReqSignIn, out *ReplyInfo) error
 		SetPasswords(ctx context.Context, in *ReqSetPasswords, out *ReplyInfo) error
 		UpdateName(ctx context.Context, in *RequestInfo, out *ReplyInfo) error
+		UpdateStatus(ctx context.Context, in *ReqAccountStatus, out *ReplyInfo) error
 	}
 	type AccountService struct {
 		accountService
@@ -133,4 +146,8 @@ func (h *accountServiceHandler) SetPasswords(ctx context.Context, in *ReqSetPass
 
 func (h *accountServiceHandler) UpdateName(ctx context.Context, in *RequestInfo, out *ReplyInfo) error {
 	return h.AccountServiceHandler.UpdateName(ctx, in, out)
+}
+
+func (h *accountServiceHandler) UpdateStatus(ctx context.Context, in *ReqAccountStatus, out *ReplyInfo) error {
+	return h.AccountServiceHandler.UpdateStatus(ctx, in, out)
 }
