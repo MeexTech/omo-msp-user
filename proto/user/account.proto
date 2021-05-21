@@ -31,6 +31,7 @@ message ReqSignIn {
 message ReqAccountStatus {
   string uid = 1;
   uint32 status = 2;
+  string operator = 3;
 }
 
 message ReqSetPasswords {
