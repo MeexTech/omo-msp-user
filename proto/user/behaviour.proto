@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package omo.msp.user;
+option go_package= "proto/user";
+import "proto/user/common.proto";
+
+service BehaviourService {
+  rpc AddOne(ReqBehaviourAdd) returns (ReplyInfo) {}
+  rpc HadOne(ReqBehaviourCheck) returns (ReplyBehaviourCheck) {}
+  rpc UpdateOne(ReqBehaviourUpdate) returns (ReplyInfo) {}
+  rpc GetList(ReqBehaviourList) returns (ReplyBehaviourList) {}
+}
+
+message BehaviourInfo {
+  string user = 1;
+  string target = 2;
+  uint64 created = 3;
+  string name = 4;
+  string creator = 5;
+  uint32 type = 6;
+  uint32 action = 7;
+}
+
+message ReqBehaviourAdd {
+  string user = 1;
+  string target = 2;
+  uint32 type = 3;
+  string operator = 4;
+  uint32 action = 5;
+}
+
+message ReqBehaviourCheck{
+  string user = 1;
+  string target = 2;
+}
+
+message ReqBehaviourUpdate{
+  string user = 1;
+  string target = 2;
+  uint32 action = 3;
+}
+
+message ReqBehaviourList{
+  string user = 1;
+  string target = 2;
+  uint32 type = 3;
+}
+
+message ReplyBehaviourCheck{
+  ReplyStatus status = 1;
+  bool had = 2;
+}
+
+message ReplyBehaviourList {
+  ReplyStatus status = 1;
+  repeated BehaviourInfo list = 2;
+}
