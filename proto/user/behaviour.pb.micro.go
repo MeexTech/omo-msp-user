@@ -37,6 +37,7 @@ type BehaviourService interface {
 	AddOne(ctx context.Context, in *ReqBehaviourAdd, opts ...client.CallOption) (*ReplyInfo, error)
 	HadOne(ctx context.Context, in *ReqBehaviourCheck, opts ...client.CallOption) (*ReplyBehaviourCheck, error)
 	UpdateOne(ctx context.Context, in *ReqBehaviourUpdate, opts ...client.CallOption) (*ReplyInfo, error)
+	GetCount(ctx context.Context, in *ReqBehaviourCheck, opts ...client.CallOption) (*ReplyBehaviourCheck, error)
 	GetList(ctx context.Context, in *ReqBehaviourList, opts ...client.CallOption) (*ReplyBehaviourList, error)
 }
 
@@ -82,6 +83,16 @@ func (c *behaviourService) UpdateOne(ctx context.Context, in *ReqBehaviourUpdate
 	return out, nil
 }
 
+func (c *behaviourService) GetCount(ctx context.Context, in *ReqBehaviourCheck, opts ...client.CallOption) (*ReplyBehaviourCheck, error) {
+	req := c.c.NewRequest(c.name, "BehaviourService.GetCount", in)
+	out := new(ReplyBehaviourCheck)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *behaviourService) GetList(ctx context.Context, in *ReqBehaviourList, opts ...client.CallOption) (*ReplyBehaviourList, error) {
 	req := c.c.NewRequest(c.name, "BehaviourService.GetList", in)
 	out := new(ReplyBehaviourList)
@@ -98,6 +109,7 @@ type BehaviourServiceHandler interface {
 	AddOne(context.Context, *ReqBehaviourAdd, *ReplyInfo) error
 	HadOne(context.Context, *ReqBehaviourCheck, *ReplyBehaviourCheck) error
 	UpdateOne(context.Context, *ReqBehaviourUpdate, *ReplyInfo) error
+	GetCount(context.Context, *ReqBehaviourCheck, *ReplyBehaviourCheck) error
 	GetList(context.Context, *ReqBehaviourList, *ReplyBehaviourList) error
 }
 
@@ -106,6 +118,7 @@ func RegisterBehaviourServiceHandler(s server.Server, hdlr BehaviourServiceHandl
 		AddOne(ctx context.Context, in *ReqBehaviourAdd, out *ReplyInfo) error
 		HadOne(ctx context.Context, in *ReqBehaviourCheck, out *ReplyBehaviourCheck) error
 		UpdateOne(ctx context.Context, in *ReqBehaviourUpdate, out *ReplyInfo) error
+		GetCount(ctx context.Context, in *ReqBehaviourCheck, out *ReplyBehaviourCheck) error
 		GetList(ctx context.Context, in *ReqBehaviourList, out *ReplyBehaviourList) error
 	}
 	type BehaviourService struct {
@@ -129,6 +142,10 @@ func (h *behaviourServiceHandler) HadOne(ctx context.Context, in *ReqBehaviourCh
 
 func (h *behaviourServiceHandler) UpdateOne(ctx context.Context, in *ReqBehaviourUpdate, out *ReplyInfo) error {
 	return h.BehaviourServiceHandler.UpdateOne(ctx, in, out)
+}
+
+func (h *behaviourServiceHandler) GetCount(ctx context.Context, in *ReqBehaviourCheck, out *ReplyBehaviourCheck) error {
+	return h.BehaviourServiceHandler.GetCount(ctx, in, out)
 }
 
 func (h *behaviourServiceHandler) GetList(ctx context.Context, in *ReqBehaviourList, out *ReplyBehaviourList) error {

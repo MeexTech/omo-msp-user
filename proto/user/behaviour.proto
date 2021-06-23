@@ -8,17 +8,19 @@ service BehaviourService {
   rpc AddOne(ReqBehaviourAdd) returns (ReplyInfo) {}
   rpc HadOne(ReqBehaviourCheck) returns (ReplyBehaviourCheck) {}
   rpc UpdateOne(ReqBehaviourUpdate) returns (ReplyInfo) {}
+  rpc GetCount(ReqBehaviourCheck) returns (ReplyBehaviourCheck) {}
   rpc GetList(ReqBehaviourList) returns (ReplyBehaviourList) {}
 }
 
 message BehaviourInfo {
-  string user = 1;
-  string target = 2;
-  uint64 created = 3;
-  string name = 4;
-  string creator = 5;
-  uint32 type = 6;
-  uint32 action = 7;
+  string uid = 1;
+  string user = 2;
+  string target = 3;
+  uint64 created = 4;
+  string name = 5;
+  string creator = 6;
+  uint32 type = 7;
+  uint32 action = 8;
 }
 
 message ReqBehaviourAdd {
@@ -35,9 +37,10 @@ message ReqBehaviourCheck{
 }
 
 message ReqBehaviourUpdate{
-  string user = 1;
-  string target = 2;
-  uint32 action = 3;
+  string uid = 1;
+  string user = 2;
+  string target = 3;
+  uint32 action = 4;
 }
 
 message ReqBehaviourList{
@@ -49,9 +52,10 @@ message ReqBehaviourList{
 message ReplyBehaviourCheck{
   ReplyStatus status = 1;
   bool had = 2;
+  uint32 count = 3;
 }
 
 message ReplyBehaviourList {
   ReplyStatus status = 1;
-  repeated BehaviourInfo list = 2;
+  repeated BehaviourInfo list = 3;
 }
