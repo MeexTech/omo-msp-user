@@ -20,6 +20,7 @@ service UserService {
     rpc UpdateSNS(ReqUserSNS) returns (ReplyUserOne) {}
     rpc UpdateTags(ReqUserTags) returns (ReplyUserOne) {}
     rpc UpdatePhone(ReqUserPhone) returns (ReplyInfo) {}
+    rpc UpdateFollows(RequestList) returns (ReplyInfo) {}
 }
 
 enum UserSex {
@@ -60,6 +61,7 @@ message UserInfo {
     uint32 status = 17;
     repeated string tags = 18;
     repeated SNSInfo sns = 19;
+    repeated string follows = 20;
 }
 
 message ReqUserAdd {

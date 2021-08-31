@@ -28,6 +28,11 @@ message RequestPage {
   uint32 page = 2;
 }
 
+message RequestList {
+  string uid = 1;
+  repeated  string list = 2;
+}
+
 message ReplyStatus {
   ResultCode code = 1;
   string msg = 2;

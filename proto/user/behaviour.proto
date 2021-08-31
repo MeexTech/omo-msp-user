@@ -34,6 +34,8 @@ message ReqBehaviourAdd {
 message ReqBehaviourCheck{
   string user = 1;
   string target = 2;
+  uint32 action = 3;
+  uint32 type = 4;
 }
 
 message ReqBehaviourUpdate{

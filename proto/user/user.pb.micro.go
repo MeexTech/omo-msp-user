@@ -49,6 +49,7 @@ type UserService interface {
 	UpdateSNS(ctx context.Context, in *ReqUserSNS, opts ...client.CallOption) (*ReplyUserOne, error)
 	UpdateTags(ctx context.Context, in *ReqUserTags, opts ...client.CallOption) (*ReplyUserOne, error)
 	UpdatePhone(ctx context.Context, in *ReqUserPhone, opts ...client.CallOption) (*ReplyInfo, error)
+	UpdateFollows(ctx context.Context, in *RequestList, opts ...client.CallOption) (*ReplyInfo, error)
 }
 
 type userService struct {
@@ -213,6 +214,16 @@ func (c *userService) UpdatePhone(ctx context.Context, in *ReqUserPhone, opts ..
 	return out, nil
 }
 
+func (c *userService) UpdateFollows(ctx context.Context, in *RequestList, opts ...client.CallOption) (*ReplyInfo, error) {
+	req := c.c.NewRequest(c.name, "UserService.UpdateFollows", in)
+	out := new(ReplyInfo)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for UserService service
 
 type UserServiceHandler interface {
@@ -231,6 +242,7 @@ type UserServiceHandler interface {
 	UpdateSNS(context.Context, *ReqUserSNS, *ReplyUserOne) error
 	UpdateTags(context.Context, *ReqUserTags, *ReplyUserOne) error
 	UpdatePhone(context.Context, *ReqUserPhone, *ReplyInfo) error
+	UpdateFollows(context.Context, *RequestList, *ReplyInfo) error
 }
 
 func RegisterUserServiceHandler(s server.Server, hdlr UserServiceHandler, opts ...server.HandlerOption) error {
@@ -250,6 +262,7 @@ func RegisterUserServiceHandler(s server.Server, hdlr UserServiceHandler, opts .
 		UpdateSNS(ctx context.Context, in *ReqUserSNS, out *ReplyUserOne) error
 		UpdateTags(ctx context.Context, in *ReqUserTags, out *ReplyUserOne) error
 		UpdatePhone(ctx context.Context, in *ReqUserPhone, out *ReplyInfo) error
+		UpdateFollows(ctx context.Context, in *RequestList, out *ReplyInfo) error
 	}
 	type UserService struct {
 		userService
@@ -320,4 +333,8 @@ func (h *userServiceHandler) UpdateTags(ctx context.Context, in *ReqUserTags, ou
 
 func (h *userServiceHandler) UpdatePhone(ctx context.Context, in *ReqUserPhone, out *ReplyInfo) error {
 	return h.UserServiceHandler.UpdatePhone(ctx, in, out)
+}
+
+func (h *userServiceHandler) UpdateFollows(ctx context.Context, in *RequestList, out *ReplyInfo) error {
+	return h.UserServiceHandler.UpdateFollows(ctx, in, out)
 }
