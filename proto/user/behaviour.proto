@@ -21,6 +21,7 @@ message BehaviourInfo {
   string creator = 6;
   uint32 type = 7;
   uint32 action = 8;
+  uint64 updated = 9;
 }
 
 message ReqBehaviourAdd {
