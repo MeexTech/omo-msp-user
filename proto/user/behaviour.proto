@@ -60,5 +60,5 @@ message ReplyBehaviourCheck{
 
 message ReplyBehaviourList {
   ReplyStatus status = 1;
-  repeated BehaviourInfo list = 3;
+  repeated BehaviourInfo list = 11;
 }

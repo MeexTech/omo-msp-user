@@ -26,11 +26,22 @@ message RequestIDInfo {
 message RequestPage {
   uint32 number = 1;
   uint32 page = 2;
+  string key = 3;
+  string value = 4;
 }
 
 message RequestList {
   string uid = 1;
-  repeated  string list = 2;
+  repeated string list = 11;
+}
+
+message ReqUpdateFilter {
+  string owner = 1;
+  string uid = 2;
+  string key = 3;
+  string value = 4;
+  string operator = 5;
+  repeated string values = 11;
 }
 
 message ReplyStatus {

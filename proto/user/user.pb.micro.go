@@ -50,6 +50,7 @@ type UserService interface {
 	UpdateTags(ctx context.Context, in *ReqUserTags, opts ...client.CallOption) (*ReplyUserOne, error)
 	UpdatePhone(ctx context.Context, in *ReqUserPhone, opts ...client.CallOption) (*ReplyInfo, error)
 	UpdateFollows(ctx context.Context, in *RequestList, opts ...client.CallOption) (*ReplyInfo, error)
+	UpdateByFilter(ctx context.Context, in *ReqUpdateFilter, opts ...client.CallOption) (*ReplyInfo, error)
 }
 
 type userService struct {
@@ -224,6 +225,16 @@ func (c *userService) UpdateFollows(ctx context.Context, in *RequestList, opts .
 	return out, nil
 }
 
+func (c *userService) UpdateByFilter(ctx context.Context, in *ReqUpdateFilter, opts ...client.CallOption) (*ReplyInfo, error) {
+	req := c.c.NewRequest(c.name, "UserService.UpdateByFilter", in)
+	out := new(ReplyInfo)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for UserService service
 
 type UserServiceHandler interface {
@@ -243,6 +254,7 @@ type UserServiceHandler interface {
 	UpdateTags(context.Context, *ReqUserTags, *ReplyUserOne) error
 	UpdatePhone(context.Context, *ReqUserPhone, *ReplyInfo) error
 	UpdateFollows(context.Context, *RequestList, *ReplyInfo) error
+	UpdateByFilter(context.Context, *ReqUpdateFilter, *ReplyInfo) error
 }
 
 func RegisterUserServiceHandler(s server.Server, hdlr UserServiceHandler, opts ...server.HandlerOption) error {
@@ -263,6 +275,7 @@ func RegisterUserServiceHandler(s server.Server, hdlr UserServiceHandler, opts .
 		UpdateTags(ctx context.Context, in *ReqUserTags, out *ReplyUserOne) error
 		UpdatePhone(ctx context.Context, in *ReqUserPhone, out *ReplyInfo) error
 		UpdateFollows(ctx context.Context, in *RequestList, out *ReplyInfo) error
+		UpdateByFilter(ctx context.Context, in *ReqUpdateFilter, out *ReplyInfo) error
 	}
 	type UserService struct {
 		userService
@@ -337,4 +350,8 @@ func (h *userServiceHandler) UpdatePhone(ctx context.Context, in *ReqUserPhone, 
 
 func (h *userServiceHandler) UpdateFollows(ctx context.Context, in *RequestList, out *ReplyInfo) error {
 	return h.UserServiceHandler.UpdateFollows(ctx, in, out)
+}
+
+func (h *userServiceHandler) UpdateByFilter(ctx context.Context, in *ReqUpdateFilter, out *ReplyInfo) error {
+	return h.UserServiceHandler.UpdateByFilter(ctx, in, out)
 }

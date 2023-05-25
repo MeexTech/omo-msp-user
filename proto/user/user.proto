@@ -21,6 +21,7 @@ service UserService {
     rpc UpdateTags(ReqUserTags) returns (ReplyUserOne) {}
     rpc UpdatePhone(ReqUserPhone) returns (ReplyInfo) {}
     rpc UpdateFollows(RequestList) returns (ReplyInfo) {}
+    rpc UpdateByFilter(ReqUpdateFilter) returns (ReplyInfo) {}
 }
 
 enum UserSex {
@@ -59,9 +60,10 @@ message UserInfo {
     string entity = 15;
     string portrait = 16;
     uint32 status = 17;
-    repeated string tags = 18;
-    repeated SNSInfo sns = 19;
-    repeated string follows = 20;
+    repeated string tags = 31;
+    repeated string follows = 32;
+    repeated string relates = 33;
+    repeated SNSInfo sns = 41;
 }
 
 message ReqUserAdd {
@@ -77,7 +79,7 @@ message ReqUserAdd {
     string entity = 10;
     string portrait = 11;
     SNSInfo sns = 12;
-    repeated string tags = 13;
+    repeated string tags = 21;
 }
 
 message ReqUserBy {
@@ -87,7 +89,7 @@ message ReqUserBy {
 
 message ReqUserSearch {
     UserType type = 1;
-    repeated string tags = 2;
+    repeated string tags = 11;
 }
 
 message ReqUserUpdate {
@@ -125,7 +127,7 @@ message ReqUserPhone {
 message ReqUserTags{
     string uid = 1;
     string operator = 2;
-    repeated string tags = 3;
+    repeated string tags = 11;
 }
 
 message ReplyUserOne {
@@ -141,6 +143,6 @@ message ReplyUserList {
     uint64 total = 1;
     uint32 pageMax = 2;
     uint32 pageNow = 3;
-    repeated UserInfo list = 4;
-    ReplyStatus status = 5;
+    ReplyStatus status = 4;
+    repeated UserInfo list = 11;
 }
