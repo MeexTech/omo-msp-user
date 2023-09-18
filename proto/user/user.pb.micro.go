@@ -51,6 +51,7 @@ type UserService interface {
 	UpdatePhone(ctx context.Context, in *ReqUserPhone, opts ...client.CallOption) (*ReplyInfo, error)
 	UpdateFollows(ctx context.Context, in *RequestList, opts ...client.CallOption) (*ReplyInfo, error)
 	UpdateByFilter(ctx context.Context, in *ReqUpdateFilter, opts ...client.CallOption) (*ReplyInfo, error)
+	GetStatistic(ctx context.Context, in *RequestPage, opts ...client.CallOption) (*ReplyStatistic, error)
 }
 
 type userService struct {
@@ -235,6 +236,16 @@ func (c *userService) UpdateByFilter(ctx context.Context, in *ReqUpdateFilter, o
 	return out, nil
 }
 
+func (c *userService) GetStatistic(ctx context.Context, in *RequestPage, opts ...client.CallOption) (*ReplyStatistic, error) {
+	req := c.c.NewRequest(c.name, "UserService.GetStatistic", in)
+	out := new(ReplyStatistic)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for UserService service
 
 type UserServiceHandler interface {
@@ -255,6 +266,7 @@ type UserServiceHandler interface {
 	UpdatePhone(context.Context, *ReqUserPhone, *ReplyInfo) error
 	UpdateFollows(context.Context, *RequestList, *ReplyInfo) error
 	UpdateByFilter(context.Context, *ReqUpdateFilter, *ReplyInfo) error
+	GetStatistic(context.Context, *RequestPage, *ReplyStatistic) error
 }
 
 func RegisterUserServiceHandler(s server.Server, hdlr UserServiceHandler, opts ...server.HandlerOption) error {
@@ -276,6 +288,7 @@ func RegisterUserServiceHandler(s server.Server, hdlr UserServiceHandler, opts .
 		UpdatePhone(ctx context.Context, in *ReqUserPhone, out *ReplyInfo) error
 		UpdateFollows(ctx context.Context, in *RequestList, out *ReplyInfo) error
 		UpdateByFilter(ctx context.Context, in *ReqUpdateFilter, out *ReplyInfo) error
+		GetStatistic(ctx context.Context, in *RequestPage, out *ReplyStatistic) error
 	}
 	type UserService struct {
 		userService
@@ -354,4 +367,8 @@ func (h *userServiceHandler) UpdateFollows(ctx context.Context, in *RequestList,
 
 func (h *userServiceHandler) UpdateByFilter(ctx context.Context, in *ReqUpdateFilter, out *ReplyInfo) error {
 	return h.UserServiceHandler.UpdateByFilter(ctx, in, out)
+}
+
+func (h *userServiceHandler) GetStatistic(ctx context.Context, in *RequestPage, out *ReplyStatistic) error {
+	return h.UserServiceHandler.GetStatistic(ctx, in, out)
 }

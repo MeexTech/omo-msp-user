@@ -5,3 +5,4 @@ proto:
 	protoc --proto_path=. --micro_out=. --go_out=. proto/user/account.proto
 	protoc --proto_path=. --micro_out=. --go_out=. proto/user/wechat.proto
 	protoc --proto_path=. --micro_out=. --go_out=. proto/user/behaviour.proto
+	protoc --proto_path=. --micro_out=. --go_out=. proto/user/message.proto

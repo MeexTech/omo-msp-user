@@ -37,6 +37,7 @@ type WechatService interface {
 	AddOne(ctx context.Context, in *ReqWechatAdd, opts ...client.CallOption) (*ReplyWechatInfo, error)
 	GetOne(ctx context.Context, in *ReqWechatBy, opts ...client.CallOption) (*ReplyWechatInfo, error)
 	UpdateBase(ctx context.Context, in *ReqWechatUpdate, opts ...client.CallOption) (*ReplyWechatInfo, error)
+	GetStatistic(ctx context.Context, in *RequestPage, opts ...client.CallOption) (*ReplyStatistic, error)
 }
 
 type wechatService struct {
@@ -81,12 +82,23 @@ func (c *wechatService) UpdateBase(ctx context.Context, in *ReqWechatUpdate, opt
 	return out, nil
 }
 
+func (c *wechatService) GetStatistic(ctx context.Context, in *RequestPage, opts ...client.CallOption) (*ReplyStatistic, error) {
+	req := c.c.NewRequest(c.name, "WechatService.GetStatistic", in)
+	out := new(ReplyStatistic)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for WechatService service
 
 type WechatServiceHandler interface {
 	AddOne(context.Context, *ReqWechatAdd, *ReplyWechatInfo) error
 	GetOne(context.Context, *ReqWechatBy, *ReplyWechatInfo) error
 	UpdateBase(context.Context, *ReqWechatUpdate, *ReplyWechatInfo) error
+	GetStatistic(context.Context, *RequestPage, *ReplyStatistic) error
 }
 
 func RegisterWechatServiceHandler(s server.Server, hdlr WechatServiceHandler, opts ...server.HandlerOption) error {
@@ -94,6 +106,7 @@ func RegisterWechatServiceHandler(s server.Server, hdlr WechatServiceHandler, op
 		AddOne(ctx context.Context, in *ReqWechatAdd, out *ReplyWechatInfo) error
 		GetOne(ctx context.Context, in *ReqWechatBy, out *ReplyWechatInfo) error
 		UpdateBase(ctx context.Context, in *ReqWechatUpdate, out *ReplyWechatInfo) error
+		GetStatistic(ctx context.Context, in *RequestPage, out *ReplyStatistic) error
 	}
 	type WechatService struct {
 		wechatService
@@ -116,4 +129,8 @@ func (h *wechatServiceHandler) GetOne(ctx context.Context, in *ReqWechatBy, out 
 
 func (h *wechatServiceHandler) UpdateBase(ctx context.Context, in *ReqWechatUpdate, out *ReplyWechatInfo) error {
 	return h.WechatServiceHandler.UpdateBase(ctx, in, out)
+}
+
+func (h *wechatServiceHandler) GetStatistic(ctx context.Context, in *RequestPage, out *ReplyStatistic) error {
+	return h.WechatServiceHandler.GetStatistic(ctx, in, out)
 }

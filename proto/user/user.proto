@@ -22,6 +22,7 @@ service UserService {
     rpc UpdatePhone(ReqUserPhone) returns (ReplyInfo) {}
     rpc UpdateFollows(RequestList) returns (ReplyInfo) {}
     rpc UpdateByFilter(ReqUpdateFilter) returns (ReplyInfo) {}
+    rpc GetStatistic(RequestPage) returns (ReplyStatistic) {}
 }
 
 enum UserSex {

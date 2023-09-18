@@ -10,6 +10,7 @@ service AccountService {
   rpc SetPasswords(ReqSetPasswords) returns (ReplyInfo) {}
   rpc UpdateName(RequestInfo) returns (ReplyInfo) {}
   rpc UpdateStatus(ReqAccountStatus) returns (ReplyInfo) {}
+  rpc GetStatistic(RequestPage) returns (ReplyStatistic) {}
 }
 
 message AccountInfo {

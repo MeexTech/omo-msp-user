@@ -39,6 +39,7 @@ type BehaviourService interface {
 	UpdateOne(ctx context.Context, in *ReqBehaviourUpdate, opts ...client.CallOption) (*ReplyInfo, error)
 	GetCount(ctx context.Context, in *ReqBehaviourCheck, opts ...client.CallOption) (*ReplyBehaviourCheck, error)
 	GetList(ctx context.Context, in *ReqBehaviourList, opts ...client.CallOption) (*ReplyBehaviourList, error)
+	GetStatistic(ctx context.Context, in *RequestPage, opts ...client.CallOption) (*ReplyStatistic, error)
 }
 
 type behaviourService struct {
@@ -103,6 +104,16 @@ func (c *behaviourService) GetList(ctx context.Context, in *ReqBehaviourList, op
 	return out, nil
 }
 
+func (c *behaviourService) GetStatistic(ctx context.Context, in *RequestPage, opts ...client.CallOption) (*ReplyStatistic, error) {
+	req := c.c.NewRequest(c.name, "BehaviourService.GetStatistic", in)
+	out := new(ReplyStatistic)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for BehaviourService service
 
 type BehaviourServiceHandler interface {
@@ -111,6 +122,7 @@ type BehaviourServiceHandler interface {
 	UpdateOne(context.Context, *ReqBehaviourUpdate, *ReplyInfo) error
 	GetCount(context.Context, *ReqBehaviourCheck, *ReplyBehaviourCheck) error
 	GetList(context.Context, *ReqBehaviourList, *ReplyBehaviourList) error
+	GetStatistic(context.Context, *RequestPage, *ReplyStatistic) error
 }
 
 func RegisterBehaviourServiceHandler(s server.Server, hdlr BehaviourServiceHandler, opts ...server.HandlerOption) error {
@@ -120,6 +132,7 @@ func RegisterBehaviourServiceHandler(s server.Server, hdlr BehaviourServiceHandl
 		UpdateOne(ctx context.Context, in *ReqBehaviourUpdate, out *ReplyInfo) error
 		GetCount(ctx context.Context, in *ReqBehaviourCheck, out *ReplyBehaviourCheck) error
 		GetList(ctx context.Context, in *ReqBehaviourList, out *ReplyBehaviourList) error
+		GetStatistic(ctx context.Context, in *RequestPage, out *ReplyStatistic) error
 	}
 	type BehaviourService struct {
 		behaviourService
@@ -150,4 +163,8 @@ func (h *behaviourServiceHandler) GetCount(ctx context.Context, in *ReqBehaviour
 
 func (h *behaviourServiceHandler) GetList(ctx context.Context, in *ReqBehaviourList, out *ReplyBehaviourList) error {
 	return h.BehaviourServiceHandler.GetList(ctx, in, out)
+}
+
+func (h *behaviourServiceHandler) GetStatistic(ctx context.Context, in *RequestPage, out *ReplyStatistic) error {
+	return h.BehaviourServiceHandler.GetStatistic(ctx, in, out)
 }

@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package omo.msp.user;
+option go_package= "proto/user";
+import "proto/user/common.proto";
+
+service MessageService {
+  rpc AddOne(ReqMessageAdd) returns (ReplyInfo) {}
+  rpc GetStatistic(RequestPage) returns (ReplyStatistic) {}
+  rpc GetList(RequestPage) returns (ReplyMessageList) {}
+  rpc UpdateByFilter(ReqUpdateFilter) returns (ReplyInfo) {}
+}
+
+message MessageInfo {
+  uint32 type = 1;
+  uint32 status = 2;
+  uint64 created = 3;
+  uint64 updated = 4;
+  uint64 stamp = 5;
+  string uid = 6;
+  string creator = 7;
+  string name = 8;
+  string user = 9;
+  string quote = 10;
+  string owner = 11;
+  repeated string targets = 12;
+}
+
+message ReqMessageAdd {
+  string user = 1;
+  string quote = 2;
+  uint32 type = 3;
+  string operator = 4;
+  uint64 stamp = 5;
+  string owner = 6;
+  repeated string targets = 11;
+}
+
+message ReplyMessageList {
+  ReplyStatus status = 1;
+  repeated MessageInfo list = 11;
+}

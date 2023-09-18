@@ -12,6 +12,12 @@ enum ResultCode {
   Empty = 5;
 }
 
+message PairInfo {
+  string key = 1;
+  string value = 2;
+  uint32 count = 3;
+}
+
 message RequestInfo {
   string uid = 1;
   string entity = 2;
@@ -28,6 +34,14 @@ message RequestPage {
   uint32 page = 2;
   string key = 3;
   string value = 4;
+  repeated string list = 11;
+}
+
+message ReplyStatistic{
+  ReplyStatus status = 1;
+  string key = 2;
+  uint64 count = 3;
+  repeated PairInfo list = 11;
 }
 
 message RequestList {

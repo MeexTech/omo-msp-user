@@ -10,6 +10,7 @@ service BehaviourService {
   rpc UpdateOne(ReqBehaviourUpdate) returns (ReplyInfo) {}
   rpc GetCount(ReqBehaviourCheck) returns (ReplyBehaviourCheck) {}
   rpc GetList(ReqBehaviourList) returns (ReplyBehaviourList) {}
+  rpc GetStatistic(RequestPage) returns (ReplyStatistic) {}
 }
 
 message BehaviourInfo {

@@ -39,6 +39,7 @@ type AccountService interface {
 	SetPasswords(ctx context.Context, in *ReqSetPasswords, opts ...client.CallOption) (*ReplyInfo, error)
 	UpdateName(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error)
 	UpdateStatus(ctx context.Context, in *ReqAccountStatus, opts ...client.CallOption) (*ReplyInfo, error)
+	GetStatistic(ctx context.Context, in *RequestPage, opts ...client.CallOption) (*ReplyStatistic, error)
 }
 
 type accountService struct {
@@ -103,6 +104,16 @@ func (c *accountService) UpdateStatus(ctx context.Context, in *ReqAccountStatus,
 	return out, nil
 }
 
+func (c *accountService) GetStatistic(ctx context.Context, in *RequestPage, opts ...client.CallOption) (*ReplyStatistic, error) {
+	req := c.c.NewRequest(c.name, "AccountService.GetStatistic", in)
+	out := new(ReplyStatistic)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for AccountService service
 
 type AccountServiceHandler interface {
@@ -111,6 +122,7 @@ type AccountServiceHandler interface {
 	SetPasswords(context.Context, *ReqSetPasswords, *ReplyInfo) error
 	UpdateName(context.Context, *RequestInfo, *ReplyInfo) error
 	UpdateStatus(context.Context, *ReqAccountStatus, *ReplyInfo) error
+	GetStatistic(context.Context, *RequestPage, *ReplyStatistic) error
 }
 
 func RegisterAccountServiceHandler(s server.Server, hdlr AccountServiceHandler, opts ...server.HandlerOption) error {
@@ -120,6 +132,7 @@ func RegisterAccountServiceHandler(s server.Server, hdlr AccountServiceHandler, 
 		SetPasswords(ctx context.Context, in *ReqSetPasswords, out *ReplyInfo) error
 		UpdateName(ctx context.Context, in *RequestInfo, out *ReplyInfo) error
 		UpdateStatus(ctx context.Context, in *ReqAccountStatus, out *ReplyInfo) error
+		GetStatistic(ctx context.Context, in *RequestPage, out *ReplyStatistic) error
 	}
 	type AccountService struct {
 		accountService
@@ -150,4 +163,8 @@ func (h *accountServiceHandler) UpdateName(ctx context.Context, in *RequestInfo,
 
 func (h *accountServiceHandler) UpdateStatus(ctx context.Context, in *ReqAccountStatus, out *ReplyInfo) error {
 	return h.AccountServiceHandler.UpdateStatus(ctx, in, out)
+}
+
+func (h *accountServiceHandler) GetStatistic(ctx context.Context, in *RequestPage, out *ReplyStatistic) error {
+	return h.AccountServiceHandler.GetStatistic(ctx, in, out)
 }

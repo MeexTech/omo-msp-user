@@ -8,6 +8,7 @@ service WechatService {
   rpc AddOne(ReqWechatAdd) returns (ReplyWechatInfo) {}
   rpc GetOne(ReqWechatBy) returns (ReplyWechatInfo) {}
   rpc UpdateBase(ReqWechatUpdate) returns (ReplyWechatInfo) {}
+  rpc GetStatistic(RequestPage) returns (ReplyStatistic) {}
 }
 
 enum WechatType {
