@@ -34,6 +34,7 @@ message RequestPage {
   uint32 page = 2;
   string key = 3;
   string value = 4;
+  string param = 5;
   repeated string list = 11;
 }
 
