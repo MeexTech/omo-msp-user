@@ -38,5 +38,7 @@ message ReqMessageAdd {
 
 message ReplyMessageList {
   ReplyStatus status = 1;
+  uint32 total = 2;
+  uint32 pages = 3;
   repeated MessageInfo list = 11;
 }
