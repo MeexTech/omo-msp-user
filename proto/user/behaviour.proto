@@ -11,6 +11,7 @@ service BehaviourService {
   rpc GetCount(ReqBehaviourCheck) returns (ReplyBehaviourCheck) {}
   rpc GetList(ReqBehaviourList) returns (ReplyBehaviourList) {}
   rpc GetStatistic(RequestPage) returns (ReplyStatistic) {}
+  rpc GetByFilter(RequestFilter) returns (ReplyBehaviourList) {}
 }
 
 message BehaviourInfo {

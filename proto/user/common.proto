@@ -50,6 +50,17 @@ message RequestList {
   repeated string list = 11;
 }
 
+message RequestFilter {
+  string owner = 1;
+  string uid = 2;
+  string key = 3;
+  string value = 4;
+  uint32 page = 5;
+  uint32 number = 6;
+  repeated string values = 11;
+  repeated string list = 12;
+}
+
 message ReqUpdateFilter {
   string owner = 1;
   string uid = 2;

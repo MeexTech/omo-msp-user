@@ -40,6 +40,7 @@ type BehaviourService interface {
 	GetCount(ctx context.Context, in *ReqBehaviourCheck, opts ...client.CallOption) (*ReplyBehaviourCheck, error)
 	GetList(ctx context.Context, in *ReqBehaviourList, opts ...client.CallOption) (*ReplyBehaviourList, error)
 	GetStatistic(ctx context.Context, in *RequestPage, opts ...client.CallOption) (*ReplyStatistic, error)
+	GetByFilter(ctx context.Context, in *RequestFilter, opts ...client.CallOption) (*ReplyBehaviourList, error)
 }
 
 type behaviourService struct {
@@ -114,6 +115,16 @@ func (c *behaviourService) GetStatistic(ctx context.Context, in *RequestPage, op
 	return out, nil
 }
 
+func (c *behaviourService) GetByFilter(ctx context.Context, in *RequestFilter, opts ...client.CallOption) (*ReplyBehaviourList, error) {
+	req := c.c.NewRequest(c.name, "BehaviourService.GetByFilter", in)
+	out := new(ReplyBehaviourList)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for BehaviourService service
 
 type BehaviourServiceHandler interface {
@@ -123,6 +134,7 @@ type BehaviourServiceHandler interface {
 	GetCount(context.Context, *ReqBehaviourCheck, *ReplyBehaviourCheck) error
 	GetList(context.Context, *ReqBehaviourList, *ReplyBehaviourList) error
 	GetStatistic(context.Context, *RequestPage, *ReplyStatistic) error
+	GetByFilter(context.Context, *RequestFilter, *ReplyBehaviourList) error
 }
 
 func RegisterBehaviourServiceHandler(s server.Server, hdlr BehaviourServiceHandler, opts ...server.HandlerOption) error {
@@ -133,6 +145,7 @@ func RegisterBehaviourServiceHandler(s server.Server, hdlr BehaviourServiceHandl
 		GetCount(ctx context.Context, in *ReqBehaviourCheck, out *ReplyBehaviourCheck) error
 		GetList(ctx context.Context, in *ReqBehaviourList, out *ReplyBehaviourList) error
 		GetStatistic(ctx context.Context, in *RequestPage, out *ReplyStatistic) error
+		GetByFilter(ctx context.Context, in *RequestFilter, out *ReplyBehaviourList) error
 	}
 	type BehaviourService struct {
 		behaviourService
@@ -167,4 +180,8 @@ func (h *behaviourServiceHandler) GetList(ctx context.Context, in *ReqBehaviourL
 
 func (h *behaviourServiceHandler) GetStatistic(ctx context.Context, in *RequestPage, out *ReplyStatistic) error {
 	return h.BehaviourServiceHandler.GetStatistic(ctx, in, out)
+}
+
+func (h *behaviourServiceHandler) GetByFilter(ctx context.Context, in *RequestFilter, out *ReplyBehaviourList) error {
+	return h.BehaviourServiceHandler.GetByFilter(ctx, in, out)
 }
