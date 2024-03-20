@@ -24,6 +24,7 @@ message BehaviourInfo {
   uint32 type = 7;
   uint32 action = 8;
   uint64 updated = 9;
+  string scene = 10;
 }
 
 message ReqBehaviourAdd {
@@ -32,6 +33,8 @@ message ReqBehaviourAdd {
   uint32 type = 3;
   string operator = 4;
   uint32 action = 5;
+  string scene = 6;
+  string entity = 7;
 }
 
 message ReqBehaviourCheck{
@@ -46,12 +49,15 @@ message ReqBehaviourUpdate{
   string user = 2;
   string target = 3;
   uint32 action = 4;
+  string entity = 5;
 }
 
 message ReqBehaviourList{
   string user = 1;
   string target = 2;
   uint32 type = 3;
+  string scene = 7;
+  string entity = 8;
 }
 
 message ReplyBehaviourCheck{
