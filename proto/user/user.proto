@@ -80,7 +80,13 @@ message ReqUserAdd {
     string entity = 10;
     string portrait = 11;
     SNSInfo sns = 12;
+    ShownInfo shown = 13;
     repeated string tags = 21;
+}
+
+message ShownInfo{
+    string name = 1;
+    string cover = 2;
 }
 
 message ReqUserBy {
