@@ -61,6 +61,7 @@ message UserInfo {
     string entity = 15;
     string portrait = 16;
     uint32 status = 17;
+    ShownInfo shown = 18;
     repeated string tags = 31;
     repeated string follows = 32;
     repeated string relates = 33;
