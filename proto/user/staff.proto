@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package omo.msp.user;
+option go_package= "proto/user";
+import "proto/user/common.proto";
+
+service StaffService {
+  rpc AddOne(ReqStaffAdd) returns (ReplyStaffOne) {}
+  rpc GetOne(RequestFilter) returns (ReplyStaffOne) {}
+  rpc UpdateBase(ReqStaffUpdate) returns (ReplyStaffOne) {}
+  rpc ListByFilter(RequestFilter) returns (ReplyStaffList) {}
+  rpc UpdateByFilter(ReqUpdateFilter) returns (ReplyInfo) {}
+  rpc GetStatistic(RequestPage) returns (ReplyStatistic) {}
+}
+
+message StaffInfo {
+  string uid = 1;
+  uint64 id = 2;
+  int64 created = 3;
+  int64 updated = 4;
+  string name = 5;
+  uint32 sex = 6;
+  string remark = 7;
+  string creator = 8;
+  string operator = 9;
+  string phone = 10;
+  string user = 11;
+  repeated string scenes = 12;
+}
+
+message ReqStaffAdd {
+  string name = 1;
+  string phone = 2;
+  string remark = 3;
+  string operator = 4;
+  string scene = 5;
+  string user = 6;
+}
+
+message ReqStaffUpdate {
+  string uid = 1;
+  string name = 2;
+  string remark = 3;
+  uint32 sex = 4;
+  string operator = 5;
+  string phone = 6;
+}
+
+message ReplyStaffOne {
+  StaffInfo info = 1;
+  ReplyStatus status = 2;
+}
+
+message ReplyStaffList {
+  uint64 total = 1;
+  uint32 pageMax = 2;
+  uint32 pageNow = 3;
+  ReplyStatus status = 4;
+  repeated StaffInfo list = 11;
+}
