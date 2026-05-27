@@ -65,6 +65,7 @@ message UserInfo {
     repeated string tags = 31;
     repeated string follows = 32;
     repeated string relates = 33;
+    repeated string ids = 34;
     repeated SNSInfo sns = 41;
 }
 
