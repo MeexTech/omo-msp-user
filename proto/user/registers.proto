@@ -44,11 +44,7 @@ message ReqRegistersAdd{
   string owner = 4;
   string operator = 5;
   string quote = 6;
-  string color = 7;
-  uint32 ignore = 8;
-  uint32 type = 9;
-  repeated string targets = 15;
-  repeated uint32 weekdays = 16;
+  string asset = 7;
 }
 
 message ReplyRegistersInfo {
