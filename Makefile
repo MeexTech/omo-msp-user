@@ -8,3 +8,4 @@ proto:
 	protoc --proto_path=. --micro_out=. --go_out=. proto/user/message.proto
 	protoc --proto_path=. --micro_out=. --go_out=. proto/user/score.proto
 	protoc --proto_path=. --micro_out=. --go_out=. proto/user/staff.proto
+	protoc --proto_path=. --micro_out=. --go_out=. proto/user/registers.proto

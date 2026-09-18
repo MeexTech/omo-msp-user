@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+package omo.msp.user;
+option go_package= "proto/user";
+import "proto/user/common.proto";
+
+service RegistersService {
+  rpc AddOne(ReqRegistersAdd) returns (ReplyRegistersInfo) {}
+  rpc GetOne(RequestInfo) returns (ReplyRegistersInfo) {}
+  rpc GetByFilter(RequestFilter) returns (ReplyRegistersList) {}
+  rpc GetStatistic(RequestFilter) returns (ReplyStatistic) {}
+  rpc UpdateByFilter(ReqUpdateFilter) returns (ReplyInfo) {}
+  rpc RemoveOne(RequestInfo) returns (ReplyInfo) {}
+}
+
+message OCRResult{
+  string name = 1;
+  string phone = 2;
+  string entity = 3;
+}
+
+message RegistersInfo {
+  string uid = 1;
+  uint64 id = 2;
+  uint32 type = 3;
+  int64 created = 4;
+  int64 updated = 5;
+  string creator = 6;
+  string operator = 7;
+
+  string name = 8;
+  string remark = 9;
+  string owner = 10;
+  string activity = 11;
+  string quote = 12;
+  string asset = 13;
+  repeated OCRResult results = 21;
+}
+
+message ReqRegistersAdd{
+  string uid = 1;
+  string name = 2;
+  string remark = 3;
+  string owner = 4;
+  string operator = 5;
+  string quote = 6;
+  string color = 7;
+  uint32 ignore = 8;
+  uint32 type = 9;
+  repeated string targets = 15;
+  repeated uint32 weekdays = 16;
+}
+
+message ReplyRegistersInfo {
+  ReplyStatus status = 1;
+  RegistersInfo info = 2;
+}
+
+message ReplyRegistersList {
+  ReplyStatus status = 1;
+  uint32 total = 2;
+  uint32 pages = 3;
+  uint32 page = 4;
+  uint32 number = 5;
+  repeated RegistersInfo list = 16;
+}
