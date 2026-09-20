@@ -17,6 +17,7 @@ message OCRResult{
   string name = 1;
   string phone = 2;
   string entity = 3;
+  string user = 4;
 }
 
 message RegistersInfo {
@@ -34,6 +35,7 @@ message RegistersInfo {
   string activity = 11;
   string quote = 12;
   string asset = 13;
+  string date = 14;
   repeated OCRResult results = 21;
 }
 
@@ -45,6 +47,7 @@ message ReqRegistersAdd{
   string operator = 5;
   string quote = 6;
   string asset = 7;
+  string activity = 8;
 }
 
 message ReplyRegistersInfo {
