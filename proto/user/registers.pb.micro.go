@@ -34,11 +34,23 @@ var _ server.Option
 // Client API for RegistersService service
 
 type RegistersService interface {
+	//*
+	// 添加签到表注册
 	AddOne(ctx context.Context, in *ReqRegistersAdd, opts ...client.CallOption) (*ReplyRegistersInfo, error)
+	//*
+	// 获取签到表注册详情
 	GetOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyRegistersInfo, error)
+	//*
+	// 获取签到表注册列表
 	GetByFilter(ctx context.Context, in *RequestFilter, opts ...client.CallOption) (*ReplyRegistersList, error)
+	//*
+	// 获取签到表注册统计信息
 	GetStatistic(ctx context.Context, in *RequestFilter, opts ...client.CallOption) (*ReplyStatistic, error)
+	//*
+	// 更新签到表注册
 	UpdateByFilter(ctx context.Context, in *ReqUpdateFilter, opts ...client.CallOption) (*ReplyInfo, error)
+	//*
+	// 删除签到表注册
 	RemoveOne(ctx context.Context, in *RequestInfo, opts ...client.CallOption) (*ReplyInfo, error)
 }
 
@@ -117,11 +129,23 @@ func (c *registersService) RemoveOne(ctx context.Context, in *RequestInfo, opts 
 // Server API for RegistersService service
 
 type RegistersServiceHandler interface {
+	//*
+	// 添加签到表注册
 	AddOne(context.Context, *ReqRegistersAdd, *ReplyRegistersInfo) error
+	//*
+	// 获取签到表注册详情
 	GetOne(context.Context, *RequestInfo, *ReplyRegistersInfo) error
+	//*
+	// 获取签到表注册列表
 	GetByFilter(context.Context, *RequestFilter, *ReplyRegistersList) error
+	//*
+	// 获取签到表注册统计信息
 	GetStatistic(context.Context, *RequestFilter, *ReplyStatistic) error
+	//*
+	// 更新签到表注册
 	UpdateByFilter(context.Context, *ReqUpdateFilter, *ReplyInfo) error
+	//*
+	// 删除签到表注册
 	RemoveOne(context.Context, *RequestInfo, *ReplyInfo) error
 }
 

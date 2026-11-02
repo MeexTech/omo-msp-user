@@ -4,12 +4,33 @@ package omo.msp.user;
 option go_package= "proto/user";
 import "proto/user/common.proto";
 
+/**
+ * 签到表注册服务
+ */
 service RegistersService {
+  /**
+   * 添加签到表注册
+   */
   rpc AddOne(ReqRegistersAdd) returns (ReplyRegistersInfo) {}
+  /**
+   * 获取签到表注册详情
+   */
   rpc GetOne(RequestInfo) returns (ReplyRegistersInfo) {}
+  /**
+   * 获取签到表注册列表
+   */
   rpc GetByFilter(RequestFilter) returns (ReplyRegistersList) {}
+  /**
+   * 获取签到表注册统计信息
+   */
   rpc GetStatistic(RequestFilter) returns (ReplyStatistic) {}
+  /**
+   * 更新签到表注册
+   */
   rpc UpdateByFilter(ReqUpdateFilter) returns (ReplyInfo) {}
+  /**
+   * 删除签到表注册
+   */
   rpc RemoveOne(RequestInfo) returns (ReplyInfo) {}
 }
 
@@ -40,14 +61,14 @@ message RegistersInfo {
 }
 
 message ReqRegistersAdd{
-  string uid = 1;
-  string name = 2;
-  string remark = 3;
-  string owner = 4;
-  string operator = 5;
-  string quote = 6;
-  string asset = 7;
-  string activity = 8;
+  string name = 1;
+  string remark = 2;
+  string owner = 3;
+  string operator = 4;
+  string quote = 5;
+  string asset = 6;
+  string activity = 7;
+  string image = 8;
 }
 
 message ReplyRegistersInfo {
